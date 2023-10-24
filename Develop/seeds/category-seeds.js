@@ -19,5 +19,7 @@ const categoryData = [
 ];
 
 const seedCategories = () => Category.bulkCreate(categoryData);
-
+seedCategories().then(() => {
+  console.log('finished');
+})
 module.exports = seedCategories;
