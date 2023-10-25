@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
   // be sure to include its associated Products
   Category.findAll().then(categories => {
     res.json(categories);
-  }).catch(err => res.json(err));
+  }).catch(err => res.status(500).json(err));
 });
 
 router.get('/:id', (req, res) => {
@@ -17,7 +17,7 @@ router.get('/:id', (req, res) => {
       id: req.params.id
     }
   }).then(category => res.json(category))
-  .catch(err => res.json(err));
+  .catch(err => res.status(500).json(err));
 });
 
  // create a new category
@@ -27,12 +27,20 @@ router.post('/', (req, res) => {
     name: name,
   })
   .then(category => res.json(category))
-  .catch(err => res.json(err));
+  .catch(err => res.status(500).json(err));
 });
 
 router.put('/:id', (req, res) => {
-  // update a category by its `id` value
-  // update -- method names
+  const categoryId = req.params.id;
+  const { name } = req.body;
+
+  Category.findByPk(categoryId)
+  .then(category => {
+    category.name = name;
+    return category.save();
+  })
+  .then(category => res.json(category))
+  .catch(err => res.status(500).json(err));
 });
 
 router.delete('/:id', (req, res) => {
