@@ -30,6 +30,7 @@ router.post('/', (req, res) => {
   .catch(err => res.status(500).json(err));
 });
 
+// add a new category
 router.put('/:id', (req, res) => {
   const categoryId = req.params.id;
   const { name } = req.body;
@@ -44,8 +45,19 @@ router.put('/:id', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-  // delete a category by its `id` value
-  // destroy -- method names
+  const categoryId = req.params.id;
+
+  Category.destroy({
+    where: { id: categoryId }
+  })
+    .then(() => {
+      res.status(204).send(); 
+    })
+    .catch((err) => {
+      console.error('Error deleing category: ', err);
+      res.status(500).json({err: 'Internal Server Error' });
+    });
+  
 });
 
 module.exports = router;
