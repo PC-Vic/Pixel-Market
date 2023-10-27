@@ -22,7 +22,7 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
   const { category_name } = req.body;
   Category.create({
-    name: category_name,
+    category_name: category_name,
   })
   .then(category => res.json(category))
   .catch(err => res.status(500).json(err));

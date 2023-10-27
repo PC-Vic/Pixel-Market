@@ -4,18 +4,26 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 
 // The `/api/products` endpoint
 router.get('/', (req, res) => {
-  // find all products
-  // be sure to include its associated Category and Tag data
+  Product.findAll().then(products => {
+    res.json(products);
+  }).catch(err => res.status(500).json(err));
 });
+
 
 // get one product
 router.get('/:id', (req, res) => {
-  // find a single product by its `id`
-  // be sure to include its associated Category and Tag data
+  Product.findOne({
+    where:{
+      id: req.params.id
+    }
+  }).then(product => res.json(product))
+  .catch(err => res.status(500).json(err));
 });
 
 // create new product
+// NEED HELP WITH THIS ONE!!!!
 router.post('/', (req, res) => {
+  
   /* req.body should look like this...
     {
       product_name: "Basketball",
@@ -47,6 +55,7 @@ router.post('/', (req, res) => {
 });
 
 // update product
+// NEED HELP WITH THIS ONE!!!
 router.put('/:id', (req, res) => {
   // update product data
   Product.update(req.body, {
@@ -91,8 +100,20 @@ router.put('/:id', (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
   // delete one product by its `id` value
+router.delete('/:id', (req, res) => {
+  const categoryId = req.params.id;
+
+  Product.destroy({
+    where: { id: productId }
+  })
+    .then(() => {
+      res.status(204).send(); 
+    })
+    .catch((err) => {
+      console.error('Error deleting product: ', err);
+      res.status(500).json({err: 'Internal Server Error' });
+    });
 });
 
 module.exports = router;
