@@ -21,20 +21,10 @@ router.get('/:id', (req, res) => {
 });
 
 // create new product
-// NEED HELP WITH THIS ONE!!!!
 router.post('/', (req, res) => {
-  
-  /* req.body should look like this...
-    {
-      product_name: "Basketball",
-      price: 200.00,
-      stock: 3,
-      tagIds: [1, 2, 3, 4]
-    }
-  */
+
   Product.create(req.body)
     .then((product) => {
-      // if there's product tags, we need to create pairings to bulk create in the ProductTag model
       if (req.body.tagIds.length) {
         const productTagIdArr = req.body.tagIds.map((tag_id) => {
           return {
@@ -55,7 +45,6 @@ router.post('/', (req, res) => {
 });
 
 // update product
-// NEED HELP WITH THIS ONE!!!
 router.put('/:id', (req, res) => {
   // update product data
   Product.update(req.body, {
@@ -105,7 +94,7 @@ router.delete('/:id', (req, res) => {
   const categoryId = req.params.id;
 
   Product.destroy({
-    where: { id: productId }
+    where: { id: req.params.id }
   })
     .then(() => {
       res.status(204).send(); 

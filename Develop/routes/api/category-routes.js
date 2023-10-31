@@ -33,10 +33,10 @@ router.put('/:id', (req, res) => {
   const categoryId = req.params.id;
   const { category_name } = req.body;
 
-  Category.findByPk(categoryId)
-  .then(category => {
-    category.name = category_name;
-    return category.save();
+  Category.update({category_name}, {
+    where: {
+      id: categoryId
+    }
   })
   .then(category => res.json(category))
   .catch(err => res.status(500).json(err));

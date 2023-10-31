@@ -34,11 +34,12 @@ router.put('/:id', (req, res) => {
   const categoryId = req.params.id;
   const { tag_name } = req.body;
 
-  Tag.findByPk(tagId)
-  .then(tag => {
-    tag.name = tag_name;
-    return tag.save();
-  })
+  Tag.update({tag_name}, {
+    where: {
+      id: categoryId
+  },})
+    
+  
   .then(tag => res.json(tag))
   .catch(err => res.status(500).json(err));
 });
@@ -51,7 +52,7 @@ router.delete('/:id', (req, res) => {
     where: { id: tagId }
   })
     .then(() => {
-      res.status(204).send(); 
+      res.status(204).send("delete successful"); 
     })
     .catch((err) => {
       console.error('Error deleting tag: ', err);
