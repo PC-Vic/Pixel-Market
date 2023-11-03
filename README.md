@@ -23,6 +23,8 @@ Welcome to Pixel Market! Pixel Market is a robust and modern e-commerce backend 
 2. Open project directory and do an "npm install"
 3. Seed the database with "npm run seed"
 4. Start the server with "npm run watch"
+   
+Walkthrough video: https://drive.google.com/file/d/1T938A97pL9xfBJQtZ0wezvkWoU9in8bF/view
 
 ## Endpoints
 
